@@ -11,14 +11,7 @@ export interface Character {
 export const CharactersStore = signalStore(
   { providedIn: 'root' },
   withState({
-    characters: [
-      {
-        id: idCount++,
-        name: 'Jack Reacher',
-        image:
-          'https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p21166923_i_v13_aa.jpg',
-      },
-    ] as Character[],
+    characters: [] as Character[],
   }),
   withMethods((state) => ({
     addCharacter(character: Pick<Character, 'name' | 'image'>) {
