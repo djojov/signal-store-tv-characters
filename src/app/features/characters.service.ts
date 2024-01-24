@@ -15,6 +15,10 @@ export class CharactersService {
   }
 
   addCharacter(character: Character) {
-    return this.http.put<Character>(`${BE_URL}/characters`, character);
+    return this.http.post<Character>(`${BE_URL}/characters`, character);
+  }
+
+  deleteCharacter(id: string) {
+    return this.http.delete(`${BE_URL}/characters/${id}`);
   }
 }

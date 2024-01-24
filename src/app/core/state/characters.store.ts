@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { Injector, inject, runInInjectionContext } from '@angular/core';
 import {
   patchState,
   signalStore,
@@ -8,10 +8,11 @@ import {
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tap } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 import { CharactersService } from '../../features/characters.service';
 
 export interface Character {
-  id: number;
+  id: string;
   name: string;
   image: string;
 }
@@ -24,19 +25,38 @@ export const CharactersStore = signalStore(
   withMethods((state) => {
     const characterService = inject(CharactersService);
 
+    const injector = inject(Injector);
+
     return {
       addCharacter(character: Pick<Character, 'name' | 'image'>) {
         const characterToAdd = {
           ...character,
-          id: state.characters().length + 1,
+          id: uuidv4(),
         };
-        patchState(state, {
-          characters: [...state.characters(), characterToAdd],
+
+        runInInjectionContext(injector, () => {
+          rxMethod<Character[]>(() =>
+            characterService.addCharacter(characterToAdd).pipe(
+              tap(() =>
+                patchState(state, {
+                  characters: [...state.characters(), characterToAdd],
+                })
+              )
+            )
+          );
         });
       },
-      removeCharacter(id: number) {
-        patchState(state, {
-          characters: state.characters().filter((c) => c.id !== id),
+      removeCharacter(id: string) {
+        runInInjectionContext(injector, () => {
+          rxMethod<Character[]>(() =>
+            characterService.deleteCharacter(id).pipe(
+              tap(() => {
+                patchState(state, {
+                  characters: state.characters().filter((c) => c.id !== id),
+                });
+              })
+            )
+          );
         });
       },
       load() {

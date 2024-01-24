@@ -31,7 +31,7 @@ export class CharacterListComponent {
   private characterStore = inject(CharactersStore);
   characters = this.characterStore.characters;
 
-  removeItem(id: number) {
+  removeItem(id: string) {
     this.characterStore.removeCharacter(id);
   }
 }
