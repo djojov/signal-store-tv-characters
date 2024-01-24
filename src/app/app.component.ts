@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './core/header.component';
 import { CharacterEditorComponent } from './features/character-editor.component';
+import { CharacterListComponent } from './features/character-list.component';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { CharacterEditorComponent } from './features/character-editor.component'
     RouterOutlet,
     HeaderComponent,
     CharacterEditorComponent,
+    CharacterListComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

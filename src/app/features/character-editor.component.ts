@@ -5,6 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { CharactersStore } from '../core/state/characters.store';
 
 @Component({
   standalone: true,
@@ -49,6 +50,7 @@ import {
   `,
 })
 export class CharacterEditorComponent {
+  private characterStore = inject(CharactersStore);
   private fb: FormBuilder = inject(FormBuilder);
 
   characterForm = this.fb.nonNullable.group({
@@ -60,5 +62,10 @@ export class CharacterEditorComponent {
     if (this.characterForm.invalid) {
       return;
     }
+
+    this.characterStore.addCharacter({
+      name: this.characterForm.value.characterName!,
+      image: this.characterForm.get('characterImage')!.value,
+    });
   }
 }
