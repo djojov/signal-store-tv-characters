@@ -4,7 +4,8 @@ I created this project to test out new Angular Signals and experiment with NgRx 
 
 ## 🛠️ Technologies and tools
 
-- `Angular`
+- `Angular 17`
+- `Signals`
 - `NgRx Signal Store`
 - `Tailwind CSS`
 - `json-server`
